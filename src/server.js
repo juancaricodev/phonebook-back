@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
 
-const PORT = 3000
+const { config } = require('./config/index')
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`)
+app.listen(config.port, () => {
+  console.log(`Server listening on port: ${config.port}`)
 })
