@@ -1,0 +1,17 @@
+{
+  "name": "phonebook-back",
+  "version": "1.0.0",
+  "description": "Phonebook API",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Node.js",
+    "Express.js",
+    "JavaScript",
+    "API"
+  ],
+  "author": "<juancaricodev@gmail.com>",
+  "license": "MIT"
+}
