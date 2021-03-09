@@ -81,6 +81,10 @@ app.post('/api/persons', (req, res) => {
     return res.status(400).json({
       error: 'content missing'
     })
+  } else if (persons.find(p => p.name === body.name)) {
+    return res.status(409).json({
+      error: 'name already exists, must be unique'
+    })
   }
 
   const newPerson = {
