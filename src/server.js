@@ -58,7 +58,11 @@ app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
   const person = persons.find(p => p.id === id)
 
-  res.json(person)
+  person
+    ? res.json(person)
+    : res.status(400).json({
+      error: 'missing content'
+    })
 })
 
 app.listen(config.port, () => {
