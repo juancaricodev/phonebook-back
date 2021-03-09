@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 const { config } = require('./config/index')
 
 let persons = [
@@ -60,9 +62,30 @@ app.get('/api/persons/:id', (req, res) => {
 
   person
     ? res.json(person)
-    : res.status(400).json({
-      error: 'missing content'
+    : res.status(404).json({
+      error: 'person not found'
     })
+})
+
+app.post('/api/persons', (req, res) => {
+  const body = req.body
+
+  if (!body.name || !body.number) {
+    return res.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const newPerson = {
+    id: Math.max(...persons.map(p => p.id)) + 1,
+    name: body.name,
+    number: body.number,
+    deleted: false
+  }
+
+  persons = [...persons, newPerson]
+
+  res.json(newPerson)
 })
 
 app.delete('/api/persons/:id', (req, res) => {
