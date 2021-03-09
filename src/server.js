@@ -67,6 +67,13 @@ app.get('/api/persons/:id', (req, res) => {
     })
 })
 
+const generateId = () => {
+  const maxId = persons.length > 0
+    ? Math.max(...persons.map(p => p.id))
+    : 0
+  return maxId + 1
+}
+
 app.post('/api/persons', (req, res) => {
   const body = req.body
 
@@ -77,7 +84,7 @@ app.post('/api/persons', (req, res) => {
   }
 
   const newPerson = {
-    id: Math.max(...persons.map(p => p.id)) + 1,
+    id: generateId(),
     name: body.name,
     number: body.number,
     deleted: false
