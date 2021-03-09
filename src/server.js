@@ -42,13 +42,13 @@ let persons = [
   }
 ]
 
-app.get('/', (req, res) => {
-  res.send('API working')
+app.get('/api/persons', (req, res) => {
+  res.json(persons)
 })
 
-app.get('/hello', (req, res) => {
-  res.send('Hello World!')
-})
+// app.get('/hello', (req, res) => {
+//   res.send('Hello World!')
+// })
 
 app.listen(config.port, () => {
   console.log(`Server listening on port: ${config.port}`)
