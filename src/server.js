@@ -42,16 +42,23 @@ let persons = [
   }
 ]
 
-app.get('/api/persons', (req, res) => {
-  res.json(persons)
-})
-
 app.get('/info', (req, res) => {
   res.send(`
     <h2>Phonebook has info for ${persons.length} people.</h2>
 
     <p>${new Date().toString()}</p>
   `)
+})
+
+app.get('/api/persons', (req, res) => {
+  res.json(persons)
+})
+
+app.get('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const person = persons.find(p => p.id === id)
+
+  res.json(person)
 })
 
 app.listen(config.port, () => {
