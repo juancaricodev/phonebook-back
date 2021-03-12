@@ -99,7 +99,23 @@ app.post('/api/persons', (req, res) => {
 
   persons = [...persons, newPerson]
 
-  res.json(newPerson)
+  res.status(201).json(newPerson)
+})
+
+app.put('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const newPerson = req.body
+
+  if (!persons.find(p => p.id === id)) {
+    res.status(404).json({
+      error: 'id not found'
+    })
+  }
+
+  persons = persons.filter(p => p.id !== id)
+  persons = [...persons, newPerson]
+
+  res.status(200).json(newPerson)
 })
 
 app.delete('/api/persons/:id', (req, res) => {
