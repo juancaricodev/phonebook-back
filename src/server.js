@@ -8,7 +8,25 @@ app.use(cors())
 
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 
-app.use(morgan(':body'))
+const morganConfig = (tokens, req, res) => {
+  const logMessage = [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+
+  const logMessageBody = logMessage.concat(' ', tokens.body(req, res))
+
+  if (req.method === 'POST') {
+    return logMessageBody
+  } else {
+    return logMessage
+  }
+}
+
+app.use(morgan(morganConfig))
 
 const { config } = require('./config/index')
 
