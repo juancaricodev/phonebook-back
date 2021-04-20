@@ -4,8 +4,11 @@ const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
-app.use(morgan('tiny'))
 app.use(cors())
+
+morgan.token('body', (req, res) => JSON.stringify(req.body))
+
+app.use(morgan(':body'))
 
 const { config } = require('./config/index')
 
