@@ -1,14 +1,14 @@
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
-const { config } = require('./config/index')
+const { config, mongodb } = require('./config/index')
 
 const app = express()
 
 // MongoDB - start
 const mongoose = require('mongoose')
 
-const url = `mongodb+srv://admin:${password}@phonebookcluster.lcxfe.mongodb.net/phonebook?retryWrites=true`
+const url = mongodb.url
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
@@ -94,7 +94,11 @@ app.get('/info', (req, res) => {
 })
 
 app.get('/api/persons', (req, res) => {
-  res.json(persons)
+  // res.json(persons)
+
+  Person
+    .find({})
+    .then(persons => res.json(persons))
 })
 
 app.get('/api/persons/:id', (req, res) => {
