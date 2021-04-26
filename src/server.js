@@ -121,14 +121,18 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const person = persons.find(p => p.id === id)
+  const id = req.params.id
+  // const person = persons.find(p => p.id === id)
 
-  person
-    ? res.json(person)
-    : res.status(404).json({
-      error: 'person not found'
-    })
+  // person
+  //   ? res.json(person)
+  //   : res.status(404).json({
+  //     error: 'person not found'
+  //   })
+
+  Person.findById(id).then(note => {
+    res.json(note)
+  })
 })
 
 const generateId = () => {
