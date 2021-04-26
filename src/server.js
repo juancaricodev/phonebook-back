@@ -1,34 +1,10 @@
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
-const { config, mongodb } = require('./config/index')
+const { config } = require('./config/index')
 const Person = require('./models/person')
 
 const app = express()
-
-// MongoDB - start
-// const mongoose = require('mongoose')
-
-// const url = mongodb.url
-
-// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-
-// const personSchema = new mongoose.Schema({
-//   name: String,
-//   number: Number
-// })
-
-// personSchema.set('toJSON', {
-//   transform: (document, returnedObject) => {
-//     returnedObject.id = returnedObject._id.toString()
-//     delete returnedObject._id
-//     delete returnedObject.__v
-//   }
-// })
-
-// const Person = mongoose.model('Person', personSchema)
-
-// MongoDB - end
 
 app.use(express.json())
 app.use(cors())
@@ -104,17 +80,9 @@ app.get('/info', (req, res) => {
         <p>${new Date().toString()}</p>
       `)
     })
-
-  // res.send(`
-  //   <h2>Phonebook has info for ${persons.length} people.</h2>
-
-  //   <p>${new Date().toString()}</p>
-  // `)
 })
 
 app.get('/api/persons', (req, res) => {
-  // res.json(persons)
-
   Person
     .find({})
     .then(persons => res.json(persons))
@@ -122,25 +90,11 @@ app.get('/api/persons', (req, res) => {
 
 app.get('/api/persons/:id', (req, res) => {
   const id = req.params.id
-  // const person = persons.find(p => p.id === id)
-
-  // person
-  //   ? res.json(person)
-  //   : res.status(404).json({
-  //     error: 'person not found'
-  //   })
 
   Person
     .findById(id)
     .then(p => res.json(p))
 })
-
-// const generateId = () => {
-//   const maxId = persons.length > 0
-//     ? Math.max(...persons.map(p => p.id))
-//     : 0
-//   return maxId + 1
-// }
 
 app.post('/api/persons', (req, res) => {
   const body = req.body
@@ -157,15 +111,9 @@ app.post('/api/persons', (req, res) => {
   // }
 
   const person = new Person({
-    // id: generateId(),
     name: body.name,
     number: body.number
-    // deleted: false
   })
-
-  // persons = [...persons, newPerson]
-
-  // res.status(201).json(newPerson)
 
   person
     .save()
