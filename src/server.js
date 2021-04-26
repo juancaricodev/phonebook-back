@@ -1,7 +1,25 @@
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
+const { config } = require('./config/index')
+
 const app = express()
+
+// MongoDB - start
+const mongoose = require('mongoose')
+
+const url = `mongodb+srv://admin:${password}@phonebookcluster.lcxfe.mongodb.net/phonebook?retryWrites=true`
+
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: Number
+})
+
+const Person = mongoose.model('Person', personSchema)
+
+// MongoDB - end
 
 app.use(express.json())
 app.use(cors())
@@ -27,8 +45,6 @@ const morganConfig = (tokens, req, res) => {
 }
 
 app.use(morgan(morganConfig))
-
-const { config } = require('./config/index')
 
 let persons = [
   {
