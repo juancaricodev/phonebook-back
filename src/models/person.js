@@ -3,7 +3,12 @@ const { mongodb } = require('../config/index')
 
 const url = mongodb.url
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+console.log('connecting to ', url)
+
+mongoose
+  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+  .then(res => console.log('connected to MongoDB'))
+  .catch(err => console.log('error connecting to MongoDB: ', err.message))
 
 const personSchema = new mongoose.Schema({
   name: String,
