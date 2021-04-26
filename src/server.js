@@ -2,30 +2,31 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 const { config, mongodb } = require('./config/index')
+const Person = require('./models/person')
 
 const app = express()
 
 // MongoDB - start
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
-const url = mongodb.url
+// const url = mongodb.url
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: Number
-})
+// const personSchema = new mongoose.Schema({
+//   name: String,
+//   number: Number
+// })
 
-personSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
+// personSchema.set('toJSON', {
+//   transform: (document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString()
+//     delete returnedObject._id
+//     delete returnedObject.__v
+//   }
+// })
 
-const Person = mongoose.model('Person', personSchema)
+// const Person = mongoose.model('Person', personSchema)
 
 // MongoDB - end
 
