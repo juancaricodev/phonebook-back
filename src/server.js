@@ -130,17 +130,17 @@ app.get('/api/persons/:id', (req, res) => {
   //     error: 'person not found'
   //   })
 
-  Person.findById(id).then(note => {
-    res.json(note)
-  })
+  Person
+    .findById(id)
+    .then(p => res.json(p))
 })
 
-const generateId = () => {
-  const maxId = persons.length > 0
-    ? Math.max(...persons.map(p => p.id))
-    : 0
-  return maxId + 1
-}
+// const generateId = () => {
+//   const maxId = persons.length > 0
+//     ? Math.max(...persons.map(p => p.id))
+//     : 0
+//   return maxId + 1
+// }
 
 app.post('/api/persons', (req, res) => {
   const body = req.body
@@ -149,22 +149,27 @@ app.post('/api/persons', (req, res) => {
     return res.status(400).json({
       error: 'content missing'
     })
-  } else if (persons.find(p => p.name === body.name)) {
-    return res.status(409).json({
-      error: 'name already exists, must be unique'
-    })
   }
+  // else if (persons.find(p => p.name === body.name)) {
+  //   return res.status(409).json({
+  //     error: 'name already exists, must be unique'
+  //   })
+  // }
 
-  const newPerson = {
-    id: generateId(),
+  const person = new Person({
+    // id: generateId(),
     name: body.name,
-    number: body.number,
-    deleted: false
-  }
+    number: body.number
+    // deleted: false
+  })
 
-  persons = [...persons, newPerson]
+  // persons = [...persons, newPerson]
 
-  res.status(201).json(newPerson)
+  // res.status(201).json(newPerson)
+
+  person
+    .save()
+    .then(savedPerson => res.json(savedPerson))
 })
 
 app.put('/api/persons/:id', (req, res) => {
