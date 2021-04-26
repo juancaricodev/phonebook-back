@@ -86,11 +86,21 @@ let persons = [
 ]
 
 app.get('/info', (req, res) => {
-  res.send(`
-    <h2>Phonebook has info for ${persons.length} people.</h2>
+  Person
+    .find({})
+    .then(persons => {
+      res.send(`
+        <h2>Phonebook has info for ${persons.length} people.</h2>
 
-    <p>${new Date().toString()}</p>
-  `)
+        <p>${new Date().toString()}</p>
+      `)
+    })
+
+  // res.send(`
+  //   <h2>Phonebook has info for ${persons.length} people.</h2>
+
+  //   <p>${new Date().toString()}</p>
+  // `)
 })
 
 app.get('/api/persons', (req, res) => {
