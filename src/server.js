@@ -31,44 +31,44 @@ const morganConfig = (tokens, req, res) => {
 
 app.use(morgan(morganConfig))
 
-let persons = [
-  {
-    name: 'Arto Hellas',
-    number: '040-123456',
-    id: 1,
-    deleted: false
-  },
-  {
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-    id: 2,
-    deleted: false
-  },
-  {
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-    id: 3,
-    deleted: false
-  },
-  {
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-    id: 4,
-    deleted: false
-  },
-  {
-    id: 5,
-    name: 'Camilo',
-    number: '12345',
-    deleted: false
-  },
-  {
-    id: 6,
-    name: 'Carlos',
-    number: '2345423',
-    deleted: true
-  }
-]
+// let persons = [
+//   {
+//     name: 'Arto Hellas',
+//     number: '040-123456',
+//     id: 1,
+//     deleted: false
+//   },
+//   {
+//     name: 'Ada Lovelace',
+//     number: '39-44-5323523',
+//     id: 2,
+//     deleted: false
+//   },
+//   {
+//     name: 'Dan Abramov',
+//     number: '12-43-234345',
+//     id: 3,
+//     deleted: false
+//   },
+//   {
+//     name: 'Mary Poppendieck',
+//     number: '39-23-6423122',
+//     id: 4,
+//     deleted: false
+//   },
+//   {
+//     id: 5,
+//     name: 'Camilo',
+//     number: '12345',
+//     deleted: false
+//   },
+//   {
+//     id: 6,
+//     name: 'Carlos',
+//     number: '2345423',
+//     deleted: true
+//   }
+// ]
 
 app.get('/info', (req, res) => {
   Person
@@ -136,11 +136,13 @@ app.put('/api/persons/:id', (req, res) => {
   res.status(200).json(newPerson)
 })
 
-app.delete('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  persons = persons.filter(n => n.id !== id)
+app.delete('/api/persons/:id', (req, res, next) => {
+  const id = req.params.id
 
-  res.status(204).end()
+  Person
+    .findByIdAndRemove(id)
+    .then(() => res.status(204).end())
+    .catch(err => next(err))
 })
 
 app.listen(config.port, () => {
