@@ -88,20 +88,19 @@ app.post('/api/persons', (req, res) => {
     .then(savedPerson => res.json(savedPerson))
 })
 
-app.put('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const newPerson = req.body
+app.put('/api/persons/:id', (req, res, next) => {
+  const id = req.params.id
+  const body = req.body
 
-  if (!persons.find(p => p.id === id)) {
-    res.status(404).json({
-      error: 'id not found'
-    })
+  const person = {
+    name: body.name,
+    number: body.number
   }
 
-  persons = persons.filter(p => p.id !== id)
-  persons = [...persons, newPerson]
-
-  res.status(200).json(newPerson)
+  Person
+    .findByIdAndUpdate(id, person, { new: true })
+    .then(updatedPerson => res.json(updatedPerson))
+    .catch(err => next(err))
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
