@@ -64,7 +64,7 @@ app.get('/api/persons/:id', (req, res, next) => {
     .catch(err => next(err))
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
   const body = req.body
 
   if (!body.name || !body.number) {
@@ -86,6 +86,7 @@ app.post('/api/persons', (req, res) => {
   person
     .save()
     .then(savedPerson => res.json(savedPerson))
+    .catch(err => next(err))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
