@@ -12,8 +12,16 @@ mongoose
   .catch(err => console.log('error connecting to MongoDB: ', err.message))
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String
+  name: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  number: {
+    type: String,
+    minlength: 7,
+    required: true
+  }
 })
 
 personSchema.set('toJSON', {
